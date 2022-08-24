@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'package:stripe_checkout/stripe_checkout.dart';
 import 'package:http/http.dart' as http;
-
+// import 'dart:html' as html;
 
 class CheckoutScreenExample extends StatefulWidget {
   CheckoutScreenExample({
@@ -70,12 +70,13 @@ class _CheckoutScreenExample extends State<CheckoutScreenExample> {
         'Content-Type': 'application/json',
       },
       body: json.encode({
-        if (kIsWeb) 'port': getUrlPort(),
+        if (kIsWeb) 'port': '4242',
       }),
     );
     final Map<String, dynamic> bodyResponse = json.decode(response.body);
     final id = bodyResponse['id'] as String;
     log('Checkout session id $id');
+    print(id);
     return id;
   }
 }

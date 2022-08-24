@@ -4,7 +4,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import '.env.dart';
+import 'package:stripe_example/.env.dart';
 
 const billingDetails = BillingDetails(
   email: 'email@flutterstripe.com',
@@ -93,7 +93,8 @@ void main() {
 
       final token = await Stripe.instance.createToken(
         // ignore: deprecated_member_use
-        CreateTokenParams(type: TokenType.Card, address: billingDetails.address),
+        CreateTokenParams(
+            type: TokenType.Card, address: billingDetails.address),
       );
       final paymentMethod = await Stripe.instance.createPaymentMethod(
         PaymentMethodParams.cardFromToken(
@@ -120,7 +121,8 @@ void main() {
     group('ideal', () {
       testWidgets('no default bank', (tester) async {
         final paymentMethod = await Stripe.instance.createPaymentMethod(
-          PaymentMethodParams.ideal(paymentMethodData: PaymentMethodDataIdeal()),
+          PaymentMethodParams.ideal(
+              paymentMethodData: PaymentMethodDataIdeal()),
         );
         expect(paymentMethod.id, startsWith('pm_'));
         expect(paymentMethod.ideal, isNotNull);
@@ -136,7 +138,8 @@ void main() {
 
       testWidgets('with bank', (tester) async {
         final paymentMethod = await Stripe.instance.createPaymentMethod(
-          PaymentMethodParams.ideal(paymentMethodData: PaymentMethodDataIdeal(bankName: 'revolut')),
+          PaymentMethodParams.ideal(
+              paymentMethodData: PaymentMethodDataIdeal(bankName: 'revolut')),
         );
         expect(paymentMethod.id, startsWith('pm_'));
         expect(paymentMethod.ideal, isNotNull);
@@ -148,7 +151,8 @@ void main() {
 
     testWidgets('fpx, testOfflineBank: true', (tester) async {
       final paymentMethod = await Stripe.instance.createPaymentMethod(
-        PaymentMethodParams.fpx(paymentMethodData: PaymentMethodDataFpx(testOfflineBank: true)),
+        PaymentMethodParams.fpx(
+            paymentMethodData: PaymentMethodDataFpx(testOfflineBank: true)),
       );
       expect(paymentMethod.id, startsWith('pm_'));
       expect(paymentMethod.fpx, isNotNull);
